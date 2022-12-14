@@ -26,7 +26,7 @@ class Vector:
         if type(other) == type(self):
             return (self.x * other.x)+(self.y * other.y)#dot product
         else:
-            return (self.x * other)+(self.y * other)#simple multiplication
+            return Vector((self.x * other),(self.y * other))#simple multiplication
     __rmul__ = __mul__
 
 
@@ -40,10 +40,13 @@ class Vector:
 
     def mag(self):
         return math.sqrt(self.x**2 + self.y**2 )
+
     def angle(self, other):
-        return math.acos((self * other)/(self.mag * other.mag))
+        return math.acos((self * other)/(self.mag() * other.mag()))
+
     def unit(self):
-        mag = mag(self)
+        mag = self.mag()
         return Vector(self.x/mag,self.y/mag)
+
     def projectedOnto(self,other):
-        return other * ((1/other.mag()^2) * (other * self))
+        return other * ((1/other.mag()**2) * (other * self))
