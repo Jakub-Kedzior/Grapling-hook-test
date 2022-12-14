@@ -23,7 +23,7 @@ points = [position.get()]
 radius = 0
 while True:
     points.append(position.get())
-    if len(points) >= 100:
+    if len(points) >= 200:
         points.pop(0)
     acceleration = Vector(0,0)
     time.sleep(0.01)
@@ -39,7 +39,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             click = True
             hook.set(pygame.mouse.get_pos())
-
+            hook = position + hook - Vector(1000,500)
     #calculating the acceleration of the player
     acceleration += gravity
     if click:
@@ -55,8 +55,13 @@ while True:
     velocity += (acceleration * 0.5)
     #makes display
     DISPLAY.fill(BLACK)
-    pygame.draw.rect(DISPLAY,(255,100,20),(position.get()[0] -10,position.get()[1] -10,20,20))
-    pygame.draw.lines(DISPLAY, (0,200,200), False, points)
+    pygame.draw.rect(DISPLAY,(255,100,20),(1000-10,500-10,20,20))
+    npoints= []
+    for i in points:
+        npoints.append(((Vector(i[0],i[1])- position)+Vector(1000,500)).get())
+    pygame.draw.lines(DISPLAY, (0,200,200), False, npoints)
+    #for i in range(len(npoints)):
+        #pygame.draw.circle(DISPLAY, (i,i,i), npoints[i], math.sqrt(200-i))
     if click:
-        pygame.draw.line(DISPLAY,(255,255,255), position.get(), hook.get())
+        pygame.draw.line(DISPLAY,(255,255,255), [1000,500], ((hook - position)+Vector(1000,500)).get())
     pygame.display.update()
